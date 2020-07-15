@@ -3,11 +3,13 @@ package ru.shaplov.spring.controller;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.shaplov.spring.aspect.ExecuteAspect;
+import ru.shaplov.spring.repository.dao.SystemAttrMapper;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,6 +19,9 @@ import javax.servlet.http.HttpSession;
 @RestController
 @Slf4j
 public class TestController {
+
+    @Autowired
+    private SystemAttrMapper systemAttrMapper;
 
     @GetMapping("/test")
     @ExecuteAspect

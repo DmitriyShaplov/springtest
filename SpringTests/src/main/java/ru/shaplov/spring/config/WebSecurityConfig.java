@@ -1,4 +1,4 @@
-package ru.shaplov.spring;
+package ru.shaplov.spring.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,5 +14,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("admin").password("{noop}admin").roles("admin.eee");
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
     }
 }

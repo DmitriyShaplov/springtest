@@ -4,6 +4,12 @@ server:
     context-path: /spring
 logging:
   config: 'classpath:log4j2.properties'
+  level:
+    ru.shaplov: DEBUG
 spring:
   main:
     allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 123456
