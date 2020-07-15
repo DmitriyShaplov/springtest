@@ -13,3 +13,5 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: 123456
+mybatis:
+  type-handlers-package: ru.shaplov.spring.repository.typehandler

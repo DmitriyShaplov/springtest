@@ -12,13 +12,12 @@ import java.util.List;
 @Repository
 public interface SystemAttrMapper {
 
-    @Insert("INSERT INTO system_attr (name, actionInd) values (#{name}, #{actionInd, " +
-            "typeHandler=ru.shaplov.spring.repository.typehandler.ActionIndTypeHandler})")
+    @Insert("INSERT INTO system_attr (name, actionInd) values (#{name}, #{actionInd})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     void create(SystemAttrEntity entity);
 
     @Results({
-            @Result(column = "actionInd", property = "actionInd", typeHandler = ActionIndTypeHandler.class)
+            @Result(column = "actionInd", property = "actionInd")
     })
     @Select("SELECT * FROM system_attr where id = #{id}")
     SystemAttrEntity read(@Param("id") long id);

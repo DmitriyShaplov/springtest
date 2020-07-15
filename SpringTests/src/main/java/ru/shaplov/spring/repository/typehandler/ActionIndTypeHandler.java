@@ -2,6 +2,7 @@ package ru.shaplov.spring.repository.typehandler;
 
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.MappedJdbcTypes;
 import org.apache.ibatis.type.MappedTypes;
 import ru.shaplov.spring.repository.entity.ActionIndicatorEnum;
 
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 @MappedTypes({ActionIndicatorEnum.class})
+@MappedJdbcTypes({JdbcType.VARCHAR})
 public class ActionIndTypeHandler extends BaseTypeHandler<ActionIndicatorEnum> {
 
     @Override
