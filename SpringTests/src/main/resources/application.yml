@@ -15,3 +15,4 @@ spring:
     password: 123456
 mybatis:
   type-handlers-package: ru.shaplov.spring.repository.typehandler
+  executor-type: BATCH
