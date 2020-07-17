@@ -26,7 +26,9 @@ public class TestedAspect {
         log.info("before aspect. " + joinPoint.getSignature() + "; " + Arrays.toString(joinPoint.getArgs()) +
                 joinPoint.getKind() + "; " + joinPoint.getSourceLocation() + "; " +
                 joinPoint.getThis() + "; " + joinPoint.getTarget() + "; " + joinPoint.getStaticPart());
+
         Object proceed = joinPoint.proceed();
+
         log.info("after aspect");
         return proceed;
     }

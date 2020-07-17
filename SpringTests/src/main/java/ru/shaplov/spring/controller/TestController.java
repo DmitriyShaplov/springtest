@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.shaplov.spring.aspect.ExecuteAspect;
 import ru.shaplov.spring.repository.dao.SpringMapper;
 import ru.shaplov.spring.repository.dao.SystemAttrMapper;
+import ru.shaplov.spring.repository.dao.TestMapper;
+import ru.shaplov.spring.repository.dao.TestXMLMapper;
 import ru.shaplov.spring.repository.entity.ActionIndicatorEnum;
 import ru.shaplov.spring.repository.entity.SystemAttrEntity;
+import ru.shaplov.spring.repository.entity.test.Test;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -29,6 +32,10 @@ public class TestController {
     private SystemAttrMapper systemAttrMapper;
     @Autowired
     private SpringMapper springMapper;
+    @Autowired
+    private TestMapper testMapper;
+    @Autowired
+    private TestXMLMapper testXMLMapper;
 
     @GetMapping("/test")
     @ExecuteAspect
@@ -46,7 +53,15 @@ public class TestController {
         entities.add(new SystemAttrEntity("test1", ActionIndicatorEnum.UPDATE));
         entities.add(new SystemAttrEntity("test2", ActionIndicatorEnum.INSERT));
         entities.add(new SystemAttrEntity("test3", ActionIndicatorEnum.DELETE));
+        springMapper.batchInsert(entities);
         return "Test wo!";
+    }
+
+    @GetMapping("test2")
+    public Object test2() {
+        Test test = testMapper.getTestById(1L);
+        Test test1 = testXMLMapper.getTestById(1L);
+        return "ok";
     }
 }
 

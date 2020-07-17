@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ru.shaplov.spring.repository.dao.TestXMLMapper">
+
+    <resultMap id="TestMap" type="ru.shaplov.spring.repository.entity.test.Test">
+        <id property="id" column="idTest"/>
+        <result property="name" column="nameTest"/>
+        <collection property="attrs" column="id" javaType="ArrayList" ofType="ru.shaplov.spring.repository.entity.test.TestAttr">
+            <id property="id" column="idAttr"/>
+            <result property="name" column="nameAttr"/>
+        </collection>
+    </resultMap>
+
+    <select id="getTestById" parameterType="Long" resultMap="TestMap">
+        select t.id as idTest, t.name as nameTest,
+        a.id as idAttr, a.name as nameAttr
+        FROM test as t inner join test_attr a on t.id = a.test_id where t.id = #{id}
+    </select>
+
+</mapper>

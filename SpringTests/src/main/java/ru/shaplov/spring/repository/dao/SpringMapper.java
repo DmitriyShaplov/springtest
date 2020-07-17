@@ -49,7 +49,7 @@ public class SpringMapper {
             for (int i = 0; i < entities.size(); i++) {
                 SystemAttrEntity entity = new SystemAttrEntity("Test", ActionIndicatorEnum.INSERT);
                 mapper.create(entity);
-                if ((i + 1) % 5 == 0 || i == entities.size() - 1) {
+                if ((i + 1) % 1000 == 0 || i == entities.size() - 1) {
                     sqlSession.commit();
                     sqlSession.clearCache();
                 }
