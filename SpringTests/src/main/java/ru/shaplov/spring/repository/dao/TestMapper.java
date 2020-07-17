@@ -1,11 +1,13 @@
 package ru.shaplov.spring.repository.dao;
 
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
 import ru.shaplov.spring.repository.entity.test.Test;
 import ru.shaplov.spring.repository.entity.test.TestAttr;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Mapper
 @Repository
@@ -29,4 +31,19 @@ public interface TestMapper {
     })
     @Select({"select 1"})
     TestAttr getAttr();
+
+    /**
+********************************************
+     */
+    @Results(value = {
+            @Result(property = "id", column = "id"),
+            @Result(property = "attrs", javaType = List.class,
+                    column = "id",
+                    many = @Many(select = "getAttrs", fetchType = FetchType.LAZY))
+    })
+    @Select("select * from test where id = #{id}")
+    Test getTest(Long id);
+
+    @Select("select * from test_attr where test_id = #{id}")
+    List<TestAttr> getAttrs(Long id);
 }

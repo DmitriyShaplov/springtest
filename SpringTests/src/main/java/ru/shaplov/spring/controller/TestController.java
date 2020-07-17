@@ -61,6 +61,7 @@ public class TestController {
     public Object test2() {
         Test test = testMapper.getTestById(1L);
         Test test1 = testXMLMapper.getTestById(1L);
+        Test test3 = testMapper.getTest(1L);
         return "ok";
     }
 }
