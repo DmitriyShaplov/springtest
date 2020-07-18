@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Dmitriy Shaplov
  */
 @SpringBootApplication
-@MapperScan(basePackages = {"ru.shaplov"})
+@MapperScan(basePackages = {"ru.shaplov.spring.repository.dao"})
 public class TestMain {
 
     public static void main(String[] args) {

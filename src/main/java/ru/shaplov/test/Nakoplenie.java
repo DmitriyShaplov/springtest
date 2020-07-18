@@ -6,8 +6,8 @@ package ru.shaplov.test;
 public class Nakoplenie {
 
     public static void main(String[] args) {
-        double yearAmount = 1.5;
-        double percent = 1.15;
+        double yearAmount = 0.5;
+        double percent = 1.1;
         int years = 50;
         double sum = 0;
         for (int i = 0; i < years; i++) {

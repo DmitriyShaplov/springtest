@@ -3,6 +3,8 @@ package ru.shaplov.spring.repository.dao;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
+import ru.shaplov.spring.repository.dao.privider.TestProvider;
+import ru.shaplov.spring.repository.entity.SystemAttrEntity;
 import ru.shaplov.spring.repository.entity.test.Test;
 import ru.shaplov.spring.repository.entity.test.TestAttr;
 
@@ -12,6 +14,30 @@ import java.util.List;
 @Mapper
 @Repository
 public interface TestMapper {
+
+    @Insert("insert into test (name, description, info) values (#{name}, #{description}, #{info})")
+    void create(Test test);
+
+    @Insert({"<script>",
+            "<foreach collection='entities' item='entity' separator=';'>",
+            "INSERT INTO test (name, description, info) values",
+            "(#{entity.name}, #{entity.description}, #{entity.info})",
+            "</foreach>",
+            "</script>"
+    })
+    void insertMultipleRows(@Param("entities") List<Test> entities);
+
+    @Insert({"<script>",
+            "INSERT INTO test (name, description, info) values",
+            "<foreach collection='entities' item='entity' separator=','>",
+            "(#{entity.name}, #{entity.description}, #{entity.info})",
+            "</foreach>",
+            "</script>"
+    })
+    void insertMultipleValues(@Param("entities") List<Test> entities);
+
+    @InsertProvider(value = TestProvider.class, method = "create")
+    void insertSQLString(@Param("list") List<Test> list);
 
     @Results(id = "TestMap", value = {
             @Result(property = "id", column = "idTest"),

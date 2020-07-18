@@ -12,5 +12,7 @@ import java.util.List;
 public class Test {
     private Long id;
     private String name;
+    private String description;
+    private String info;
     private List<TestAttr> attrs;
 }

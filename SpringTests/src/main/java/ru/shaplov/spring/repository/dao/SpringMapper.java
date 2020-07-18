@@ -18,15 +18,15 @@ public class SpringMapper {
     private SqlSessionTemplate sqlSessionTemplate;
     @Autowired
     private SqlSessionFactory sqlSessionFactory;
-    @Autowired
-    private MyBatisBatchItemWriter<SystemAttrEntity> myBatisBatchItemWriter;
+//    @Autowired
+//    private MyBatisBatchItemWriter<SystemAttrEntity> myBatisBatchItemWriter;
 
-    /**
-     * Батч через MyBatisBatchItemWriter (нужно подключать Spring Batch dependencies)
-     */
-    public void batchWriter(List<SystemAttrEntity> entities) {
-        myBatisBatchItemWriter.write(entities);
-    }
+//    /**
+//     * Батч через MyBatisBatchItemWriter (нужно подключать Spring Batch dependencies)
+//     */
+//    public void batchWriter(List<SystemAttrEntity> entities) {
+//        myBatisBatchItemWriter.write(entities);
+//    }
 
     /**
      * JDBC батч без ограничения количества вставок.
