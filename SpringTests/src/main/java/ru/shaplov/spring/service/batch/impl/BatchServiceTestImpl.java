@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.shaplov.spring.repository.dao.TestMapper;
+import ru.shaplov.spring.repository.dao.TestRepository;
 import ru.shaplov.spring.repository.entity.test.Test;
 import ru.shaplov.spring.service.batch.BatchService;
 
@@ -29,7 +30,7 @@ public class BatchServiceTestImpl implements BatchService {
 
     private static final String SQL = "INSERT INTO test (name, description, info) VALUES (?, ?, ?)";
     private static final int BATCH_SIZE = 1000;
-    private static final int TEST_SIZE = 1000_000;
+    private static final int TEST_SIZE = 100_000;
     public static final String SQL_MY_BATIS;
     public static final List<Test> testList = new ArrayList<>();
 
@@ -39,6 +40,7 @@ public class BatchServiceTestImpl implements BatchService {
     private final SqlSessionFactory sqlSessionFactory;
     private final MyBatisBatchItemWriter<Test> myBatisBatchItemWriter;
     private final TestMapper testMapper;
+    private final TestRepository testRepository;
 
     static {
         StringBuilder stringBuilder = new StringBuilder();
@@ -52,22 +54,19 @@ public class BatchServiceTestImpl implements BatchService {
     }
 
     static {
-        Test test = new Test();
-        test.setName("test name");
-        test.setDescription("test description");
-        test.setInfo("test info");
         for (int i = 0; i < TEST_SIZE; i++) {
-            testList.add(test);
+            testList.add(new Test("test name", "test desc", "test info"));
         }
     }
 
-    public BatchServiceTestImpl(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate, DataSource dataSource, SqlSessionFactory sqlSessionFactory, MyBatisBatchItemWriter<Test> myBatisBatchItemWriter, TestMapper testMapper) {
+    public BatchServiceTestImpl(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate, DataSource dataSource, SqlSessionFactory sqlSessionFactory, MyBatisBatchItemWriter<Test> myBatisBatchItemWriter, TestMapper testMapper, TestRepository testRepository) {
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
         this.dataSource = dataSource;
         this.sqlSessionFactory = sqlSessionFactory;
         this.myBatisBatchItemWriter = myBatisBatchItemWriter;
         this.testMapper = testMapper;
+        this.testRepository = testRepository;
     }
 
     @Override
@@ -123,21 +122,14 @@ public class BatchServiceTestImpl implements BatchService {
     @Transactional
     public void importMyBatisBatchType(List<Test> list) {
         final SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
-        try {
-            final TestMapper mapper = sqlSession.getMapper(TestMapper.class);
-            for (int i = 0; i < list.size(); i++) {
-                Test test = list.get(i);
-                mapper.create(test);
-                if ((i + 1) % BATCH_SIZE == 0) {
-                    sqlSession.flushStatements();
-                }
+        final TestMapper mapper = sqlSession.getMapper(TestMapper.class);
+        for (int i = 0; i < list.size(); i++) {
+            Test test = list.get(i);
+            mapper.create(test);
+            if ((i + 1) % BATCH_SIZE == 0) {
+                sqlSession.flushStatements();
+                sqlSession.clearCache();
             }
-            sqlSession.commit();
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            sqlSession.rollback();
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -164,5 +156,10 @@ public class BatchServiceTestImpl implements BatchService {
     @Transactional
     public void importPreparedString(List<Test> list) {
         testMapper.insertSQLString(list);
+    }
+
+    @Override
+    public void importBatchJPA(List<Test> list) {
+        Iterable<Test> tests = testRepository.saveAll(list);
     }
 }

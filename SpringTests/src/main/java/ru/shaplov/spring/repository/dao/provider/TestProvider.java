@@ -1,4 +1,4 @@
-package ru.shaplov.spring.repository.dao.privider;
+package ru.shaplov.spring.repository.dao.provider;
 
 import org.apache.ibatis.annotations.Param;
 import ru.shaplov.spring.repository.entity.test.Test;

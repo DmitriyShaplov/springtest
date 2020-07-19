@@ -3,8 +3,7 @@ package ru.shaplov.spring.repository.dao;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
-import ru.shaplov.spring.repository.dao.privider.TestProvider;
-import ru.shaplov.spring.repository.entity.SystemAttrEntity;
+import ru.shaplov.spring.repository.dao.provider.TestProvider;
 import ru.shaplov.spring.repository.entity.test.Test;
 import ru.shaplov.spring.repository.entity.test.TestAttr;
 

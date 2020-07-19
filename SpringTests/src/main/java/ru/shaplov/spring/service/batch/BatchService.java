@@ -14,4 +14,5 @@ public interface BatchService {
     void importMyBatisValuesChunks(List<Test> list);
     void importMyBatisCopyImports(List<Test> list);
     void importPreparedString(List<Test> list);
+    void importBatchJPA(List<Test> list);
 }

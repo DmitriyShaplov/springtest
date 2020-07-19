@@ -18,6 +18,12 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: 123456
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 50
+        order_inserts: true
 mybatis:
   type-handlers-package: ru.shaplov.spring.repository.typehandler
 #  executor-type: BATCH
