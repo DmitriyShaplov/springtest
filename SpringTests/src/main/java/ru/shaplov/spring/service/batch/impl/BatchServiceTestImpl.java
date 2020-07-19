@@ -97,6 +97,7 @@ public class BatchServiceTestImpl implements BatchService {
     }
 
     @Override
+    @Transactional
     public void importBatchJdbcTemplate(List<Test> list) {
         jdbcTemplate.batchUpdate(SQL,
                 list,
