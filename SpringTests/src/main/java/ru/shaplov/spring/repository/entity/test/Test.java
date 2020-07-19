@@ -10,6 +10,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Test {
+    public Test(String name, String description, String info) {
+        this.name = name;
+        this.description = description;
+        this.info = info;
+    }
+
     private Long id;
     private String name;
     private String description;

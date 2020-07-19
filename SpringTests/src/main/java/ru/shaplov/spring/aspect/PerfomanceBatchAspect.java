@@ -16,7 +16,7 @@ public class PerfomanceBatchAspect {
         long start = System.currentTimeMillis();
         Object proceed = joinPoint.proceed();
         long end = System.currentTimeMillis();
-        log.info("::BATCH IMPORT::{}\nTOOK: {} millis",
+        log.info("::BATCH IMPORT::{} TOOK: {} millis",
                 joinPoint.getSignature().getName(),
                 end - start);
         return proceed;

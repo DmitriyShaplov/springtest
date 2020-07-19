@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.shaplov.spring.repository.dao.TestMapper;
 import ru.shaplov.spring.repository.entity.test.Test;
 import ru.shaplov.spring.service.batch.BatchService;
@@ -28,7 +29,7 @@ public class BatchServiceTestImpl implements BatchService {
 
     private static final String SQL = "INSERT INTO test (name, description, info) VALUES (?, ?, ?)";
     private static final int BATCH_SIZE = 1000;
-    private static final int TEST_SIZE = 10;
+    private static final int TEST_SIZE = 1000_000;
     public static final String SQL_MY_BATIS;
     public static final List<Test> testList = new ArrayList<>();
 
@@ -79,7 +80,8 @@ public class BatchServiceTestImpl implements BatchService {
                     preparedStatement.setString(1, v.getName());
                     preparedStatement.setString(2, v.getDescription());
                     preparedStatement.setString(3, v.getInfo());
-                    if (count % BATCH_SIZE == 0) {
+                    preparedStatement.addBatch();
+                    if ((count + 1) % BATCH_SIZE == 0) {
                         preparedStatement.executeBatch();
                     }
                 }
@@ -107,6 +109,7 @@ public class BatchServiceTestImpl implements BatchService {
     }
 
     @Override
+    @Transactional
     public void importBatchNamedParameterJdbcTemplate(List<Test> list) {
         SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(list);
         namedParameterJdbcTemplate.batchUpdate(
@@ -116,6 +119,7 @@ public class BatchServiceTestImpl implements BatchService {
     }
 
     @Override
+    @Transactional
     public void importMyBatisBatchType(List<Test> list) {
         final SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
         try {
@@ -123,7 +127,7 @@ public class BatchServiceTestImpl implements BatchService {
             for (int i = 0; i < list.size(); i++) {
                 Test test = list.get(i);
                 mapper.create(test);
-                if (i % BATCH_SIZE == 0) {
+                if ((i + 1) % BATCH_SIZE == 0) {
                     sqlSession.flushStatements();
                 }
             }
@@ -137,22 +141,26 @@ public class BatchServiceTestImpl implements BatchService {
     }
 
     @Override
+    @Transactional
     public void importMyBatisBatchWriter(List<Test> list) {
         myBatisBatchItemWriter.write(list);
     }
 
     @Override
+    @Transactional
     public void importMyBatisValuesChunks(List<Test> list) {
         List<List<Test>> partition = Lists.partition(list, 100);
         partition.forEach(testMapper::insertMultipleValues);
     }
 
     @Override
+    @Transactional
     public void importMyBatisCopyImports(List<Test> list) {
         testMapper.insertMultipleRows(list);
     }
 
     @Override
+    @Transactional
     public void importPreparedString(List<Test> list) {
         testMapper.insertSQLString(list);
     }

@@ -5,7 +5,12 @@ server:
 logging:
   config: 'classpath:log4j2.properties'
   level:
-    ru.shaplov: DEBUG
+    ru.shaplov: INFO
+    org:
+      springframework: INFO
+    com:
+      spring:
+        ibatis: INFO
 spring:
   main:
     allow-bean-definition-overriding: true
