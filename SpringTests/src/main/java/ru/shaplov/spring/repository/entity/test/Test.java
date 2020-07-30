@@ -47,5 +47,5 @@ public class Test {
     private String info;
 
     @Transient
-    private List<TestAttr> attrs;
+    private TestAttr attrs;
 }

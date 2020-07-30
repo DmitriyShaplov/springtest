@@ -25,18 +25,19 @@ public class TestBatchController {
     @GetMapping("/execute")
     public ResponseEntity<String> executeBatch() {
 
-        batchService.importJdbcBatch(testList);
+//        batchService.importJdbcBatch(testList);
 //        batchService.importBatchJdbcTemplate(testList);
 //        batchService.importBatchNamedParameterJdbcTemplate(testList);
-        batchService.importMyBatisBatchType(testList);
-//        batchService.importMyBatisValuesChunks(testList);
+//        batchService.importMyBatisBatchType(testList);
+        batchService.importMyBatisValuesChunks(testList);
+        batchService.importMyBatisValuesChunksId(testList);
 //        batchService.importMyBatisCopyImports(testList);
 //        batchService.importPreparedString(testList);
 //        batchService.importMyBatisBatchWriter(testList);
 //        List<Test> list = new ArrayList<>();
 //        list.add(new Test("1", "1", "1"));
 //        list.add(new Test("2", "2", "2"));
-//        batchService.importBatchJPA(testList);
+        batchService.importBatchJPA(testList);
         testList.forEach(v -> v.setId(null));
 
         return ResponseEntity.ok("ok");

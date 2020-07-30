@@ -148,6 +148,13 @@ public class BatchServiceTestImpl implements BatchService {
 
     @Override
     @Transactional
+    public void importMyBatisValuesChunksId(List<Test> list) {
+        List<List<Test>> partition = Lists.partition(list, 100);
+        partition.forEach(testMapper::insertMultipleValuesIdGenerated);
+    }
+
+    @Override
+    @Transactional
     public void importMyBatisCopyImports(List<Test> list) {
         testMapper.insertMultipleRows(list);
     }
