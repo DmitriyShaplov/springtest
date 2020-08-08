@@ -35,6 +35,7 @@ public interface TestMapper {
             "</foreach>",
             "</script>"
     })
+    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void insertMultipleValues(@Param("entities") List<Test> entities);
 
     @Insert({"<script>",
