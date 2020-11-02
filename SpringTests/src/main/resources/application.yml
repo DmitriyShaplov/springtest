@@ -8,9 +8,7 @@ logging:
     ru.shaplov: DEBUG
     org:
       springframework: DEBUG
-    com:
-      spring:
-        ibatis: DEBUG
+    com.spring.ibatis: DEBUG
 spring:
   main:
     allow-bean-definition-overriding: true

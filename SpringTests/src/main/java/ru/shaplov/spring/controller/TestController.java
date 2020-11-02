@@ -1,5 +1,7 @@
 package ru.shaplov.spring.controller;
 
+import example.model.TestDate;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -9,10 +11,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.shaplov.spring.aspect.ExecuteAspect;
+import ru.shaplov.spring.model.IHasPrintVars;
+import ru.shaplov.spring.model.IHasPrintVarsImpl;
 import ru.shaplov.spring.repository.dao.SpringMapper;
 import ru.shaplov.spring.repository.dao.SystemAttrMapper;
 import ru.shaplov.spring.repository.dao.TestMapper;
@@ -23,10 +30,15 @@ import ru.shaplov.spring.repository.entity.test.Test;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -44,9 +56,19 @@ public class TestController {
     private TestMapper testMapper;
     @Autowired
     private TestXMLMapper testXMLMapper;
+    @Autowired
+    private IHasPrintVars iHasPrintVars;
 
     @Value("#{servletContext.contextPath + '${mybatis.type-handlers-package}'}")
     private String servletContextPath;
+
+    @GetMapping("/aspect")
+    public void test() {
+        new IHasPrintVarsImpl().getVars();
+        IHasPrintVars i = HashMap::new;
+        i.getVars();
+        iHasPrintVars.getVars();
+    }
 
     @GetMapping("/test")
     @ExecuteAspect
@@ -58,9 +80,33 @@ public class TestController {
         return unitUser;
     }
 
+    @PostMapping("/post")
+    public void test(@Validated @RequestBody DLObject object) {
+        System.out.println(object.getInner().getData());
+    }
+
+    @Data
+    private static class DLObject {
+        @Valid
+        private InnerObject inner;
+    }
+
+    @Data
+    private static class InnerObject {
+        @NotNull
+        private String data;
+    }
+
     @GetMapping("/ok")
     public ResponseEntity<String> ok() {
+        Test test = new Test(2L, null, "teee", "teee", null);
+        testMapper.update(test);
         return ResponseEntity.ok("Ok");
+    }
+
+    @GetMapping("/date/now")
+    public TestDate date() {
+        return new TestDate();
     }
 
     @GetMapping("/redirect1")
@@ -82,8 +128,6 @@ public class TestController {
     public ResponseEntity<String> redirect4() throws IOException {
         return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "http://localhost:8881/spring/ok").build();
     }
-
-
 
     @GetMapping("/test1")
     public Object testWOAspect(HttpSession session) {

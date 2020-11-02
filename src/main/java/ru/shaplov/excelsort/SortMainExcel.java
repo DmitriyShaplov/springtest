@@ -19,7 +19,7 @@ import java.util.List;
 public class SortMainExcel {
 
     public static void main(String[] args) {
-        String path = "D:\\Download\\Universitety_RF.xlsx";
+        String path = "C:\\Users\\dshaplov\\Desktop\\Университеты РФ.xlsx";
         XSSFSheet sheet;
         XSSFWorkbook workbook = readWorkbook(path);
         try {
@@ -73,7 +73,7 @@ public class SortMainExcel {
                 sheet1.copyRows(rows, 0, new CellCopyPolicy());
                 workbook.removeSheetAt(0);
 
-                writeWorkbook(workbook, "D:\\Download\\Universitety_R1F.xlsx");
+                writeWorkbook(workbook, "C:\\Users\\dshaplov\\Desktop\\Университеты РФ_sorted.xlsx");
             }
         } catch (Exception e) {
             e.printStackTrace();

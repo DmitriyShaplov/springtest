@@ -19,6 +19,9 @@ public interface TestMapper {
     @Insert("insert into test (name, description, info) values (#{name}, #{description}, #{info})")
     void create(Test test);
 
+    @Update("update test set name = #{name}, description = #{description}, info = #{info} where id = #{id}")
+    int update(Test test);
+
     @Insert({"<script>",
             "<foreach collection='entities' item='entity' separator=';'>",
             "INSERT INTO test (name, description, info) values",
@@ -39,13 +42,14 @@ public interface TestMapper {
     void insertMultipleValues(@Param("entities") List<Test> entities);
 
     @Insert({"<script>",
-            "INSERT INTO test (name, description, info) values",
+            "INSERT INTO test (id, name, description, info) values",
             "<foreach collection='entities' item='entity' separator=','>",
-            "(#{entity.name}, #{entity.description}, #{entity.info})",
+            "(#{entity.id}, #{entity.name}, #{entity.description}, #{entity.info})",
             "</foreach>",
             "</script>"
     })
     @Options(useGeneratedKeys = true, keyProperty = "id")
+//    @SelectKey(keyProperty = "id", before = true, statement = "select nextval('test_id_seq')", resultType = Long.class)
     void insertMultipleValuesIdGenerated(@Param("entities") List<Test> entities);
 
     @InsertProvider(value = TestProvider.class, method = "create")

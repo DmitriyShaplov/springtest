@@ -30,7 +30,7 @@ public class BatchServiceTestImpl implements BatchService {
 
     private static final String SQL = "INSERT INTO test (name, description, info) VALUES (?, ?, ?)";
     private static final int BATCH_SIZE = 1000;
-    private static final int TEST_SIZE = 100_000;
+    private static final int TEST_SIZE = 100;
     public static final String SQL_MY_BATIS;
     public static final List<Test> testList = new ArrayList<>();
 

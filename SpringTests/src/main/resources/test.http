@@ -1,1 +1,27 @@
 GET http://localhost:8881/spring/test1
+
+###
+POST http://localhost:8881/spring/post
+Authorization: Basic admin admin
+Content-Type: application/json
+
+{
+ "inner": {}
+}
+
+###
+
+POST http://localhost:8083/inv-backend/file/storage/upload
+Content-Type: multipart/form-data; boundary=WebKitFormBoundary7MA4YWxkTrZu0gW
+
+--WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="json"
+Content-Type: application/json
+
+{ "fileTypeId": "1", "docNo": "string", "fileDesc": "string", "fileDt": "2020-10-02", "coreCaseId": "11", "createUser": "string", "modifyUser": "string" }
+--WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="data"; filename="/C:/Users/dshaplov/Desktop/мусор/юр лица учет.txt"
+Content-Type: application/octet-stream
+
+(data)
+--WebKitFormBoundary7MA4YWxkTrZu0gW

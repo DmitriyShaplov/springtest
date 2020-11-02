@@ -1,5 +1,6 @@
 package ru.shaplov.spring.aspect;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -31,6 +32,41 @@ public class TestedAspect {
 
         log.info("after aspect");
         return proceed;
+    }
+
+    @Around("target(ru.shaplov.spring.model.IHasPrintVars) && execution(* *())")
+    @SneakyThrows
+    public Object execute(ProceedingJoinPoint joinPoint) {
+        System.out.println("JOINT POINT!!!");
+        return joinPoint.proceed();
+    }
+
+    @Around("within(ru.shaplov.spring.model.IHasPrintVars) && execution(* *())")
+    @SneakyThrows
+    public Object execute2(ProceedingJoinPoint joinPoint) {
+        System.out.println("JOINT POINT!!!2");
+        return joinPoint.proceed();
+    }
+
+    @Around("within(ru.shaplov.spring.model.IHasPrintVarsImpl2) && execution(* *())")
+    @SneakyThrows
+    public Object execute3(ProceedingJoinPoint joinPoint) {
+        System.out.println("JOINT POINT!!!3");
+        return joinPoint.proceed();
+    }
+
+    @Around("execution(* ru.shaplov.spring.model.IHasPrintVars.*())")
+    @SneakyThrows
+    public Object execute4(ProceedingJoinPoint joinPoint) {
+        System.out.println("JOINT POINT!!!4");
+        return joinPoint.proceed();
+    }
+
+    @Around("execution(* ru.shaplov.spring.model.IHasPrintVarsImpl2.*())")
+    @SneakyThrows
+    public Object execute5(ProceedingJoinPoint joinPoint) {
+        System.out.println("JOINT POINT!!!5");
+        return joinPoint.proceed();
     }
 
     @Before("@annotation(ExecuteAspect) && args(session,..)")
