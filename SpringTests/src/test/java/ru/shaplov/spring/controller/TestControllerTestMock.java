@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -96,10 +97,12 @@ public class TestControllerTestMock {
 
     @Test
     public void testList() {
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
-        Test2 map = modelMapper.map(new Test1(), Test2.class);
-        System.out.println(1);
+        Random random1 = new Random();
+        Random random = new Random();
+        for (int i = 0; i < 10; i++) {
+            System.out.println(random.nextInt());
+            System.out.println(random1.nextInt());
+        }
     }
 
     @Data

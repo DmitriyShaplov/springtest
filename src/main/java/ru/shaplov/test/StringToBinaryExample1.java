@@ -16,7 +16,7 @@ public class StringToBinaryExample1 {
     public static void main(String[] args) {
 
         HashCode qq123456 = Hashing.sha256().hashString("Qq123456", StandardCharsets.UTF_8);
-        Hashing.sha256().bits()
+        Hashing.sha256().bits();
         System.out.println(qq123456);
 //        String input = "шиза";
 //        String result = convertStringToBinary(input);
