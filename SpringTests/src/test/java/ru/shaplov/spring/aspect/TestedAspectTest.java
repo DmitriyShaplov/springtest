@@ -3,6 +3,8 @@ package ru.shaplov.spring.aspect;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import lombok.SneakyThrows;
+
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -42,6 +44,15 @@ public class TestedAspectTest {
         Field name = ru.shaplov.spring.repository.entity.test.Test.class.getDeclaredField("name");
         name.setAccessible(true);
         System.out.println(name.get(test));
+    }
+
+    @Test
+    public void testestset() {
+        Class<?> aClass = get1Class();
+    }
+
+    private Class<?> get1Class() {
+        return Void.class;
     }
 
     public static class Test1 {
