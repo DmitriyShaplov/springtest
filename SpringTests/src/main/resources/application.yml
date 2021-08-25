@@ -9,6 +9,7 @@ logging:
     org:
       springframework: DEBUG
     com.spring.ibatis: DEBUG
+
 spring:
   main:
     allow-bean-definition-overriding: true
@@ -16,7 +17,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: 123456
+    driver-class-name: org.postgresql.Driver
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
         jdbc:
