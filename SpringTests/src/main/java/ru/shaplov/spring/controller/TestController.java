@@ -7,16 +7,15 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.shaplov.spring.aspect.ExecuteAspect;
 import ru.shaplov.spring.model.IHasPrintVars;
 import ru.shaplov.spring.model.IHasPrintVarsImpl;
@@ -33,6 +32,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.zip.DeflaterOutputStream;
 
 /**
  * @author Dmitriy Shaplov
@@ -83,6 +85,22 @@ public class TestController {
     @PostMapping("/post")
     public void test(@Validated @RequestBody DLObject object) {
         System.out.println(object.getInner().getData());
+    }
+
+    @PostMapping(value = "/compress", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE,
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<byte[]> compress(@RequestPart MultipartFile file) {
+        ByteArrayOutputStream bout = new ByteArrayOutputStream();
+        try (DeflaterOutputStream dout = new DeflaterOutputStream(bout)) {
+            dout.write(file.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header("Content-Disposition", String.format("attachment; filename=\"%s.%s\"", "123", "png"))
+                .header("Content-Description", "File Transfer")
+                .body(bout.toByteArray());
     }
 
     @Data

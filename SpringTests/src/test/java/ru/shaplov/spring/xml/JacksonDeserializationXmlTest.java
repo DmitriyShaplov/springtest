@@ -1,52 +1,70 @@
 package ru.shaplov.spring.xml;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import javax.xml.XMLConstants;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.github.opendevl.JFlat;
 import com.github.wnameless.json.flattener.JsonFlattener;
-import lombok.Data;
+
 import org.junit.Test;
 
-import javax.xml.XMLConstants;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+
+import lombok.Data;
 
 @Data
 public class JacksonDeserializationXmlTest {
 
-//    @Test
-//    @SuppressWarnings("unchecked")
-//    //чтение xml в объект средствами JAXB.
-//    public void deserializeXml() throws Exception {
-//        FileInputStream fs = new FileInputStream("C:\\Users\\dshaplov\\IdeaProjects\\springtest\\SpringTests\\src\\main\\resources\\Request5.xml");
-//        JAXBContext context = JAXBContext.newInstance(ObjectFactory.class);
-//        Unmarshaller unmarshaller = context.createUnmarshaller();
-//        JAXBElement<ru.shaplov.spring.xml.dto.mypackage.EPGURequestType> requestType = (JAXBElement<ru.shaplov.spring.xml.dto.mypackage.EPGURequestType>) unmarshaller.unmarshal(fs);
-//        ru.shaplov.spring.xml.dto.mypackage.EPGURequestType value = requestType.getValue();
+    @Test
+    @SuppressWarnings("unchecked")
+    //чтение xml в объект средствами JAXB.
+    public void deserializeXml() throws Exception {
 
 //        XmlMapper xmlMapper = new XmlMapper();
 //        xmlMapper.registerModule(new JaxbAnnotationModule());
 //        EPGURequestType epguRequestType = xmlMapper.readValue(
 //                String.join("", Files.readAllLines(Paths.get("C:\\Users\\dshaplov\\IdeaProjects\\springtest\\SpringTests\\src\\main\\resources\\Request5.xml"))),
 //                EPGURequestType.class);
-//    }
+    }
+
+    @Test
+    public void test12312() {
+        List<Integer> integers = new ArrayList<>(Arrays.asList(1, 2, 3));
+        for (Integer i : integers) {
+            integers.add(i + 3);
+            System.out.println(i);
+        }
+    }
 
     @Test
     public void flatJson() throws Exception {
@@ -54,8 +72,6 @@ public class JacksonDeserializationXmlTest {
                 Paths.get("C:\\Users\\dshaplov\\Desktop\\подключения\\EPGURequest5.txt"))));
         flat.json2Sheet().write2csv("C:\\Users\\dshaplov\\Desktop\\подключения\\EPGURequest5.csv");
         ObjectMapper objectMapper = new ObjectMapper();
-
-
     }
 
     @Test

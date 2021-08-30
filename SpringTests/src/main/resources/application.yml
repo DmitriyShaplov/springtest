@@ -13,10 +13,17 @@ logging:
 spring:
   main:
     allow-bean-definition-overriding: true
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/postgres
+#    username: postgres
+#    password: 123456
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: "jdbc:postgresql://localhost:5432/postgres"
     username: postgres
-    password: 123456
+    password: mysecretpassword
+    hikari:
+      connection-init-sql: SET SEARCH_PATH TO testbd;
+    driver-class-name: org.postgresql.Driver
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -25,6 +32,15 @@ spring:
         jdbc:
           batch_size: 50
         order_inserts: true
+    show-sql: true
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+      group-id: baeldung
+
 mybatis:
   type-handlers-package: ru.shaplov.spring.repository.typehandler
 #  executor-type: BATCH
+
+test:
+  topic: embedded-test-topic

@@ -96,6 +96,24 @@ public class TestControllerTestMock {
     }
 
     @Test
+    public void test13() {
+        String s = null;
+        ModelMapper map = new ModelMapper() {
+            @Override
+            public <D> D map(Object source, Class<D> destinationType) {
+                return super.map(source, destinationType);
+            }
+        };
+        String map1 = map.map(s, String.class);
+        System.out.println(map1);
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void testList() {
         Random random1 = new Random();
         Random random = new Random();
